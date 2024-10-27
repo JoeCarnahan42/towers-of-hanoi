@@ -39,7 +39,7 @@ let winState = function() {
 }
 
 // Handles Movement of Discs //
-let moveDisk = function(startPeg, endPeg) {
+let moveDisc = function(startPeg, endPeg) {
   const startingPeg = gameBoardObj[startPeg]
   const endingPeg = gameBoardObj[endPeg]
   const discToMove = startingPeg.at(-1)
@@ -47,12 +47,21 @@ let moveDisk = function(startPeg, endPeg) {
   const fullPeg = [5, 4, 3, 2, 1]
   const emptyPeg = []
 
+  const pegTwoFull = fullPeg.every((disc) => {
+    gameBoardObj[2].includes(disc)
+    console.log("true")
+  })
+
+  const pegThreeFull = fullPeg.every((disc) => {
+    gameBoardObj[3].includes(disc)
+    console.log("true")
+  })
   
 
   if (endPegDisc === undefined || endPegDisc > discToMove) {
     endingPeg.push(discToMove)
     startingPeg.pop()
-
+    
     console.log('Move successful, board is now:')
     renderGame()
 
@@ -61,8 +70,5 @@ let moveDisk = function(startPeg, endPeg) {
     
   }
 
-  if (gameBoardObj[1].every(emptyPeg) && gameBoardObj[2].every(fullPeg) && gameBoardObj[3].every(emptyPeg)) {
-    winState()
-  }
+  
 }
-
