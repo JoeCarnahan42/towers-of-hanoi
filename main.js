@@ -23,7 +23,7 @@ let renderGame = function() {Object.values(gameBoardObj).map((game) => {
 // Renders Game Board in Console //
 renderGame()
 
-// Handles the Win Condition and Resets the Game //
+// Checks For Win Condition and Resets the Game //
 let winState = function() {
 
   const fullPeg = [5, 4, 3, 2, 1]
