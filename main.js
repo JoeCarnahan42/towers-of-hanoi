@@ -1,7 +1,3 @@
-// checkWinner function that checks for winning
-//  --> game ends when winner is determined and console logs it
-
-
 // Tracks Board State //
 let gameBoardObj = {
   1: [5, 4, 3, 2, 1],
@@ -29,13 +25,27 @@ renderGame()
 
 // Handles the Win Condition and Resets the Game //
 let winState = function() {
-  console.log("Congratulations! You win!")
-  gameBoardObj = {
-    1: [5, 4, 3, 2, 1],
-    2: [],
-    3: []
+
+  const fullPeg = [5, 4, 3, 2, 1]
+
+  const pegTwoFull = fullPeg.every((disc) => {
+    return gameBoardObj[2].includes(disc)
+  })
+  
+  const pegThreeFull = fullPeg.every((disc) => {
+    return gameBoardObj[3].includes(disc)
+  })
+
+  if (pegTwoFull || pegThreeFull) {
+    console.log("Congratulations! You win!")
+    console.log("-=New Game=-")
+    gameBoardObj = {
+      1: [5, 4, 3, 2, 1],
+      2: [],
+      3: []
+    }
+    renderGame()
   }
-  renderGame()
 }
 
 // Handles Movement of Discs //
@@ -44,19 +54,6 @@ let moveDisc = function(startPeg, endPeg) {
   const endingPeg = gameBoardObj[endPeg]
   const discToMove = startingPeg.at(-1)
   const endPegDisc = endingPeg.at(endPeg.length)
-  const fullPeg = [5, 4, 3, 2, 1]
-  const emptyPeg = []
-
-  const pegTwoFull = fullPeg.every((disc) => {
-    gameBoardObj[2].includes(disc)
-    console.log("true")
-  })
-
-  const pegThreeFull = fullPeg.every((disc) => {
-    gameBoardObj[3].includes(disc)
-    console.log("true")
-  })
-  
 
   if (endPegDisc === undefined || endPegDisc > discToMove) {
     endingPeg.push(discToMove)
@@ -64,11 +61,14 @@ let moveDisc = function(startPeg, endPeg) {
     
     console.log('Move successful, board is now:')
     renderGame()
-
+    
   } else {
     console.log("Invalid Move: Disks can only be placed on top of smaller disks.")
     
   }
+  
 
+  winState()
   
 }
+
