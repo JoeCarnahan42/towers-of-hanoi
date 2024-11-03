@@ -1,61 +1,60 @@
 // Tracks Board State //
-let gameBoardObj = {
+const gameBoardObj = {
   1: [5, 4, 3, 2, 1],
   2: [],
   3: []
 }
 
-
-
-
-// Handles Opening Display of Game Board //
-let renderGame = function() {Object.values(gameBoardObj).map((game) => {
-  const pegs = game.toString()
-  let gameString = `--- ${pegs}`
+// Handles Display of Game Board //
+function renderGame() { Object.values(gameBoardObj).forEach((peg) => {
+  const pegs = peg.toString()
+  const gameString = `--- ${pegs}`
   
-  let gameDisplay = gameString.split(",").join(" ")
-  
+  const gameDisplay = gameString.split(",").join(" ")
+
   
   console.log(gameDisplay)
-  
 })}
 
 // Renders Game Board in Console //
 renderGame()
 
 // Checks For Win Condition and Resets the Game //
-let winState = function() {
+function checkWinner() {
 
   const fullPeg = [5, 4, 3, 2, 1]
-
-  const pegTwoFull = fullPeg.every((disc) => {
-    return gameBoardObj[2].includes(disc)
-  })
   
-  const pegThreeFull = fullPeg.every((disc) => {
-    return gameBoardObj[3].includes(disc)
-  })
-
-  if (pegTwoFull || pegThreeFull) {
+  const isWinningPeg = peg => JSON.stringify(gameBoardObj[peg]) === JSON.stringify(fullPeg)
+  
+  if (isWinningPeg(2) || isWinningPeg(3)) {
     console.log("Congratulations! You win!")
     console.log("-=New Game=-")
-    gameBoardObj = {
-      1: [5, 4, 3, 2, 1],
-      2: [],
-      3: []
-    }
+    gameBoardObj[1] = fullPeg
+    gameBoardObj[2] = []
+    gameBoardObj[3] = []
     renderGame()
   }
 }
 
 // Handles Movement of Discs //
 let moveDisc = function(startPeg, endPeg) {
+  const emptyPeg = []
+  const isEmptyPeg = peg => JSON.stringify(gameBoardObj[peg]) === JSON.stringify(emptyPeg)
   const startingPeg = gameBoardObj[startPeg]
   const endingPeg = gameBoardObj[endPeg]
-  const discToMove = startingPeg.at(-1)
-  const endPegDisc = endingPeg.at(endPeg.length)
+  const discToMove = startingPeg[startingPeg.length - 1]
+  const endPegDisc = endingPeg[endingPeg.length - 1]
 
   if (endPegDisc === undefined || endPegDisc > discToMove) {
+    if (startPeg === endPeg) {
+      console.log('Invalid Move: You must move the disc to a new peg. The board is still:')
+      renderGame()
+      return
+    }else if (isEmptyPeg(startPeg)) {
+      console.log('Invalid Move: You cannot move a disc that does not exist. The board is still:')
+      renderGame()
+      return
+    }
     endingPeg.push(discToMove)
     startingPeg.pop()
     
@@ -63,12 +62,40 @@ let moveDisc = function(startPeg, endPeg) {
     renderGame()
     
   } else {
-    console.log("Invalid Move: Disks can only be placed on top of smaller disks.")
-    
+    console.log("Invalid Move: Discs can only be placed on top of smaller discs. The board is still:")
+    renderGame()
   }
-  
-
-  winState()
-  
+  checkWinner()
 }
 
+moveDisc(1, 2)
+moveDisc(1, 3)
+moveDisc(2, 3)
+moveDisc(1, 2)
+moveDisc(3, 1)
+moveDisc(3, 2)
+moveDisc(1, 2)
+moveDisc(1, 3)
+moveDisc(2, 3)
+moveDisc(2, 1)
+moveDisc(3, 1)
+moveDisc(2, 3)
+moveDisc(1, 2)
+moveDisc(1, 3)
+moveDisc(2, 3)
+moveDisc(1, 2)
+moveDisc(3, 1)
+moveDisc(3, 2)
+moveDisc(1, 2)
+moveDisc(3, 1)
+moveDisc(2, 3)
+moveDisc(2, 1)
+moveDisc(3, 1)
+moveDisc(3, 2)
+moveDisc(1, 2)
+moveDisc(1, 3)
+moveDisc(2, 3)
+moveDisc(1, 2)
+moveDisc(3, 1)
+moveDisc(3, 2)
+moveDisc(1, 2)
