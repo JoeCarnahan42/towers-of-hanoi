@@ -6,7 +6,8 @@ const gameBoardObj = {
 }
 
 // Handles Display of Game Board //
-function renderGame() { Object.values(gameBoardObj).forEach((peg) => {
+function renderGame() {
+  Object.values(gameBoardObj).forEach((peg) => {
   const pegs = peg.toString()
   const gameString = `--- ${pegs}`
   
@@ -37,7 +38,7 @@ function checkWinner() {
 }
 
 // Handles Movement of Discs //
-let moveDisc = function(startPeg, endPeg) {
+function movePeg(startPeg, endPeg) {
   const emptyPeg = []
   const isEmptyPeg = peg => JSON.stringify(gameBoardObj[peg]) === JSON.stringify(emptyPeg)
   const startingPeg = gameBoardObj[startPeg]
